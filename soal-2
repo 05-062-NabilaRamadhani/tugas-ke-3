@@ -1,0 +1,67 @@
+#Nabila Ramadhani Mujahidin
+#123140062
+
+from abc import ABC, abstractmethod
+
+# Kelas induk untuk karyawan
+class Employee(ABC):
+    def __init__(self, name, role, hours_worked, task_completed):
+        self.name = name  # Nama karyawan
+        self.role = role  # Peran dalam startup
+        self.hours_worked = hours_worked  # Total jam kerja
+        self.task_completed = task_completed  # Total tugas yang diselesaikan
+    
+    @abstractmethod
+    def work(self):
+        pass
+    
+    def evaluate_performance(self):
+        # Menghitung produktivitas berdasarkan jam kerja dan tugas yang diselesaikan
+        performance_ratio = self.task_completed / max(self.hours_worked, 1)
+        
+        if performance_ratio > 1.5:
+            return "High Performance"
+        elif performance_ratio > 0.8:
+            return "Medium Performance"
+        else:
+            return "Low Performance"
+    
+    def show_performance(self):
+        print(f"Performance Rating: {self.evaluate_performance()}\n")
+
+# Kelas turunan untuk Software Engineer
+class SoftwareEngineer(Employee):
+    def __init__(self, name, hours_worked, task_completed):
+        super().__init__(name, "Software Engineer", hours_worked, task_completed)
+    
+    def work(self):
+        print(f"{self.name} (Software Engineer) is coding.")
+
+# Kelas turunan untuk Data Scientist
+class DataScientist(Employee):
+    def __init__(self, name, hours_worked, task_completed):
+        super().__init__(name, "Data Scientist", hours_worked, task_completed)
+    
+    def work(self):
+        print(f"{self.name} (Data Scientist) is analyzing data.")
+
+# Kelas turunan untuk Product Manager
+class ProductManager(Employee):
+    def __init__(self, name, hours_worked, task_completed):
+        super().__init__(name, "Product Manager", hours_worked, task_completed)
+    
+    def work(self):
+        print(f"{self.name} (Product Manager) is managing the product roadmap.")
+
+# Simulasi karyawan
+employees = [
+    SoftwareEngineer("Alice", 40, 70),
+    DataScientist("Bob", 40, 35),
+    ProductManager("Charlie", 50, 42),
+    SoftwareEngineer("David", 40, 20)
+]
+
+# Menjalankan simulasi kerja dan evaluasi performa
+for employee in employees:
+    employee.work()
+    employee.show_performance()
