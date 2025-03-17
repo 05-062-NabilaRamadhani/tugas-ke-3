@@ -1,0 +1,68 @@
+#Nabila Ramadhani Mujahidin
+#123140062
+
+from abc import ABC, abstractmethod
+
+# Kelas abstrak untuk tanaman
+class Plant(ABC):
+    def __init__(self, name, water_needs, fertilizer_needs):
+        # Inisialisasi atribut tanaman
+        self.name = name  # Nama tanaman
+        self.water_needs = water_needs  # Kebutuhan air standar dalam liter
+        self.fertilizer_needs = fertilizer_needs  # Kebutuhan pupuk standar dalam kg
+    
+    @abstractmethod
+    def grow(self):
+        # Metode abstrak yang harus diimplementasikan oleh kelas turunan
+        pass
+    
+    def calculate_needs(self, rainfall, soil_moisture):
+        # Menghitung kebutuhan air dan pupuk berdasarkan curah hujan dan kelembapan tanah
+        adjusted_water = max(self.water_needs - rainfall, 0)  # Air yang dibutuhkan setelah dikurangi curah hujan
+        adjusted_fertilizer = max(self.fertilizer_needs - (soil_moisture * 0.05), 0)  # Pupuk yang dibutuhkan setelah dikurangi kelembapan tanah
+        return adjusted_water, adjusted_fertilizer
+    
+    def show_needs(self, rainfall, soil_moisture):
+        # Menampilkan kebutuhan air dan pupuk setelah penyesuaian
+        water, fertilizer = self.calculate_needs(rainfall, soil_moisture)
+        print(f"Weather Report: Rainfall = {rainfall} mm, Soil Moisture = {soil_moisture}%")
+        print(f"Adjusted Water Needs: {water} liters")
+        print(f"Adjusted Fertilizer Needs: {fertilizer} kg\n")
+
+# Kelas turunan untuk tanaman padi
+class RicePlant(Plant):
+    def __init__(self):
+        # Inisialisasi dengan nilai kebutuhan air dan pupuk spesifik untuk padi
+        super().__init__("Rice", water_needs=25, fertilizer_needs=5)
+    
+    def grow(self):
+        # Implementasi metode grow untuk padi
+        print("Rice is growing in the paddy field")
+
+# Kelas turunan untuk tanaman jagung
+class CornPlant(Plant):
+    def __init__(self):
+        # Inisialisasi dengan nilai kebutuhan air dan pupuk spesifik untuk jagung
+        super().__init__("Corn", water_needs=20, fertilizer_needs=7)
+    
+    def grow(self):
+        # Implementasi metode grow untuk jagung
+        print("Corn is growing in the farm")
+
+# Simulasi kondisi cuaca
+rainfall_rice = 10  # Curah hujan dalam mm untuk padi
+soil_moisture_rice = 75  # Kelembapan tanah dalam % untuk padi
+
+rainfall_corn = 2  # Curah hujan dalam mm untuk jagung
+soil_moisture_corn = 40  # Kelembapan tanah dalam % untuk jagung
+
+# Membuat objek tanaman
+rice = RicePlant()
+corn = CornPlant()
+
+# Menjalankan simulasi pertumbuhan dan menampilkan kebutuhan air dan pupuk
+rice.grow()
+rice.show_needs(rainfall_rice, soil_moisture_rice)
+
+corn.grow()
+corn.show_needs(rainfall_corn, soil_moisture_corn)
